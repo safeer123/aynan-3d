@@ -39,7 +39,7 @@ type Dimensions = {
   height: number;
 };
 
-function useDimensions(): [React.RefObject<HTMLDivElement>, Dimensions ] {
+function useDimensions(): [React.RefObject<HTMLDivElement | undefined>, Dimensions ] {
   const ref = useRef<HTMLDivElement>();
   const [dimensions, setDimensions] = useState<Dimensions>({ width: 0, height: 0 });
 
@@ -240,7 +240,7 @@ function Main3dArea() {
   }, [renderConfig]);
 
   return (
-    <ViewAreaWrapper ref={wrapperRef}>
+    <ViewAreaWrapper ref={wrapperRef as React.RefObject<HTMLDivElement>}>
       <StyledCanvas ref={canvasRef} />
       {
         loading

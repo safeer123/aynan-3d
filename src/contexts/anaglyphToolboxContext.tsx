@@ -2,12 +2,13 @@ import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
 import type { UploadFile } from 'antd/es/upload/interface';
+import { ControlValues } from '../types/controls';
 
 export type AnaglyphTBContextType = {
   fileList: UploadFile[];
   setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>;
-  controlValues: Object;
-  setControlValues: React.Dispatch<React.SetStateAction<Object>>;
+  controlValues: ControlValues;
+  setControlValues: React.Dispatch<React.SetStateAction<ControlValues>>;
   canvasRef: React.RefObject<HTMLCanvasElement>;
   downloadAnaglyph: () => void;
 };
@@ -16,7 +17,7 @@ export const AnaglyphTBContext = React.createContext<AnaglyphTBContextType | nul
 
 const AnaglyphTBProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [controlValues, setControlValues] = useState({
+  const [controlValues, setControlValues] = useState<ControlValues>({
     deltaX: 0,
     deltaY: 0,
   });

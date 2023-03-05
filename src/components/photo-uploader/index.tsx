@@ -3,6 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import styled from 'styled-components';
+import type { UploadFile } from 'antd/es/upload/interface';
 
 const Wrapper = styled.div`
   width: 456px;
@@ -33,6 +34,12 @@ const ContentSection = styled.div`
   box-sizing: border-box;
 `;
 
+type Props = {
+  fileList: UploadFile[];
+  setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>;
+  close: () => void;
+};
+
 const getBase64 = (file: RcFile): Promise<string> => new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -40,7 +47,7 @@ const getBase64 = (file: RcFile): Promise<string> => new Promise((resolve, rejec
   reader.onerror = (error) => reject(error);
 });
 
-const PhotoUploader: React.FC = ({ fileList, setFileList, close }) => {
+const PhotoUploader: React.FC<Props> = ({ fileList, setFileList, close }) => {
   const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
     for (let i = 0; i < newFileList.length; i += 1) {
       const file = newFileList[i];
