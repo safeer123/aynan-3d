@@ -1,7 +1,7 @@
 {
-  "name": "react-typescript",
+  "name": "aynan-3d",
   "version": "1.0.0",
-  "description": "React and TypeScript example starter project",
+  "description": "Aynan - 3D content generation on the Web",
   "keywords": [
     "typescript",
     "react",
@@ -9,22 +9,44 @@
   ],
   "main": "src/index.tsx",
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "antd": "5.2.1",
+    "image-js": "^0.35.3",
+    "lodash": "^4.17.21",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-hide-on-mouse-stop": "^1.0.3",
     "react-scripts": "4.0.3",
     "styled-components": "5.3.6"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
+    "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "typescript": "4.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clean-start": "rm -rf node_modules; rm package-lock.json; npm i; npm start;"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
   "browserslist": [
     ">0.2%",

@@ -1,2 +1,2 @@
 # aynan-3d
-Created with CodeSandbox
+Make 3D content on web
