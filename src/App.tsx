@@ -1,14 +1,9 @@
-import "./styles.css";
+import AnaglyphMaker from './pages/anaglyph-maker';
 
-import PhotoUploader from "./components/photo-uploader";
+import './styles.css';
 
 export default function App() {
   return (
-    <div className="App">
-      <h1>Aynan</h1>
-      <h2>Build 3D content on web</h2>
-
-      <PhotoUploader />
-    </div>
+    <AnaglyphMaker />
   );
 }

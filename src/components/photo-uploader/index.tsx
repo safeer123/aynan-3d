@@ -1,40 +1,55 @@
-import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload } from "antd";
-import type { RcFile, UploadProps } from "antd/es/upload";
-import type { UploadFile } from "antd/es/upload/interface";
+import React from 'react';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Upload } from 'antd';
+import type { RcFile, UploadProps } from 'antd/es/upload';
+import styled from 'styled-components';
 
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+const Wrapper = styled.div`
+  width: 456px;
+  height: 360px;
+`;
 
-const PhotoUploader: React.FC = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+const HeaderSection = styled.div`
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
 
-  const handleCancel = () => setPreviewOpen(false);
+const FooterSection = styled.div`
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 0px;
+`;
 
-  const handlePreview = async (file: UploadFile) => {
-    console.log(file);
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
+const ContentSection = styled.div`
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+`;
+
+const getBase64 = (file: RcFile): Promise<string> => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result as string);
+  reader.onerror = (error) => reject(error);
+});
+
+const PhotoUploader: React.FC = ({ fileList, setFileList, close }) => {
+  const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
+    for (let i = 0; i < newFileList.length; i += 1) {
+      const file = newFileList[i];
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj as RcFile);
+      }
     }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    );
-  };
-
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
+  };
 
   const uploadButton = (
     <div>
@@ -43,24 +58,25 @@ const PhotoUploader: React.FC = () => {
     </div>
   );
   return (
-    <>
-      <Upload
-        listType="picture-card"
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 8 ? null : uploadButton}
-      </Upload>
-      <Modal
-        open={previewOpen}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <img alt="example" style={{ width: "100%" }} src={previewImage} />
-      </Modal>
-    </>
+    <Wrapper>
+      <HeaderSection>
+        <Button shape="round" size="small" onClick={() => setFileList([])}>Clear All</Button>
+      </HeaderSection>
+      <ContentSection>
+        <Upload
+          multiple
+          listType="picture-card"
+          fileList={fileList}
+          onChange={handleChange}
+          beforeUpload={() => false}
+        >
+          {fileList.length >= 8 ? null : uploadButton}
+        </Upload>
+      </ContentSection>
+      <FooterSection>
+        <Button shape="round" size="small" type="primary" onClick={close}>Done</Button>
+      </FooterSection>
+    </Wrapper>
   );
 };
 

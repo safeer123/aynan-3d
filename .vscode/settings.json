@@ -1,0 +1,11 @@
+{
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "files.exclude": {
+      "**/.DS_Store": true,
+      "**/.git": true,
+      "node_modules": true
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+  }
