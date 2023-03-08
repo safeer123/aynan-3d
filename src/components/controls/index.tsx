@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Slider, Button, Tooltip } from 'antd';
 import { useContext } from 'react';
-import { HideOnMouseStop } from 'react-hide-on-mouse-stop';
 import { DownloadOutlined } from '@ant-design/icons';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
+import HideOnMouseAway from '../../utils/HideOnMouseAway';
 
-const Overlay = styled(HideOnMouseStop)`
+const Overlay = styled(HideOnMouseAway)`
   position: absolute;
   top: 0;
   right: 0;
@@ -49,11 +49,9 @@ const VertSliderWrapper = styled.div`
 `;
 
 function Controls() {
-  const {
-    controlValues,
-    setControlValues,
-    downloadAnaglyph,
-  } = useContext(AnaglyphTBContext) as AnaglyphTBContextType;
+  const { controlValues, setControlValues, downloadAnaglyph } = useContext(
+    AnaglyphTBContext,
+  ) as AnaglyphTBContextType;
 
   const onChangeVal = (key: string, value: number | [number, number]) => {
     // console.log('onChange: ', value);
@@ -63,7 +61,6 @@ function Controls() {
   // const onAfterChange = (value: number | [number, number]) => {};
 
   return (
-
     <Overlay delay={2000} defaultTransition hideCursor>
       <Group1>
         <HorizSliderWrapper>
@@ -79,7 +76,12 @@ function Controls() {
         </HorizSliderWrapper>
 
         <Tooltip title="Download anaglyph as PNG" placement="bottomRight" mouseEnterDelay={1}>
-          <Button type="primary" shape="circle" icon={<DownloadOutlined />} onClick={downloadAnaglyph} />
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<DownloadOutlined />}
+            onClick={downloadAnaglyph}
+          />
         </Tooltip>
       </Group1>
 
@@ -98,7 +100,6 @@ function Controls() {
         </VertSliderWrapper>
       </Group2>
     </Overlay>
-
   );
 }
 export default Controls;

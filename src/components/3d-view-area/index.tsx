@@ -1,37 +1,38 @@
-import {
-  useRef, useEffect, useState, useLayoutEffect, useContext,
-} from 'react';
+import { useRef, useEffect, useState, useLayoutEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Image as Img } from 'image-js';
 import { debounce } from 'lodash';
 import { Spin } from 'antd';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
 import {
-  AnaglyphRenderConfig, RenderConfig, RenderType, SingleRenderConfig,
+  AnaglyphRenderConfig,
+  RenderConfig,
+  RenderType,
+  SingleRenderConfig,
 } from '../../types/render';
 
 const StyledCanvas = styled.canvas`
-    width: 700px;
-    height: 450px;
+  width: 700px;
+  height: 450px;
 `;
 
 const ViewAreaWrapper = styled.div`
-    background-color: #323131;
-    width: 100%;
-    height: 100%;
-    position: relative;
+  background-color: #323131;
+  width: 100%;
+  height: 100%;
+  position: relative;
 `;
 
 const SpinnerWrapper = styled.div`
-    background-color: #5d5b5b8c;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: #5d5b5b8c;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 type Dimensions = {
@@ -39,7 +40,7 @@ type Dimensions = {
   height: number;
 };
 
-function useDimensions(): [React.RefObject<HTMLDivElement | undefined>, Dimensions ] {
+function useDimensions(): [React.RefObject<HTMLDivElement | undefined>, Dimensions] {
   const ref = useRef<HTMLDivElement>();
   const [dimensions, setDimensions] = useState<Dimensions>({ width: 0, height: 0 });
 
@@ -60,11 +61,9 @@ function useDimensions(): [React.RefObject<HTMLDivElement | undefined>, Dimensio
 }
 
 function Main3dArea() {
-  const {
-    fileList,
-    controlValues,
-    canvasRef,
-  } = useContext(AnaglyphTBContext) as AnaglyphTBContextType;
+  const { fileList, controlValues, canvasRef } = useContext(
+    AnaglyphTBContext,
+  ) as AnaglyphTBContextType;
 
   const [images, setImages] = useState<string[]>([]);
 
@@ -139,7 +138,11 @@ function Main3dArea() {
     renderConf: AnaglyphRenderConfig,
   ): Promise<void> => {
     setLoading(true);
-    const { imgL, imgR, controlValues: { deltaX, deltaY } } = renderConf;
+    const {
+      imgL,
+      imgR,
+      controlValues: { deltaX, deltaY },
+    } = renderConf;
     const imgObjL = await Img.load(imgL);
 
     const imageR = await loadImageFromData(imgR);
@@ -190,26 +193,23 @@ function Main3dArea() {
   }, [fileList]);
 
   const debouncedUpdateRenderConfig = useRef(
-    debounce(
-      (images, controlValues) => {
-        if (images.length === 1) {
-          setRenderConfig({
-            type: RenderType.SINGLE,
-            img: images?.[0],
-          });
-        } else if (images.length >= 2) {
-          setRenderConfig({
-            type: RenderType.ANAGLYPH,
-            imgL: images?.[0],
-            imgR: images?.[1],
-            controlValues,
-          });
-        } else {
-          setRenderConfig(null);
-        }
-      },
-      500,
-    ),
+    debounce((images, controlValues) => {
+      if (images.length === 1) {
+        setRenderConfig({
+          type: RenderType.SINGLE,
+          img: images?.[0],
+        });
+      } else if (images.length >= 2) {
+        setRenderConfig({
+          type: RenderType.ANAGLYPH,
+          imgL: images?.[0],
+          imgR: images?.[1],
+          controlValues,
+        });
+      } else {
+        setRenderConfig(null);
+      }
+    }, 500),
   ).current;
 
   useEffect(
@@ -233,7 +233,8 @@ function Main3dArea() {
     setTimeout(() => {
       if (renderConfig.type === RenderType.SINGLE) {
         drawSingleImg(context, renderConfig as SingleRenderConfig);
-      } if (renderConfig.type === RenderType.ANAGLYPH) {
+      }
+      if (renderConfig.type === RenderType.ANAGLYPH) {
         drawAnaglyph2(context, renderConfig as AnaglyphRenderConfig);
       }
     }, 10);
@@ -242,15 +243,11 @@ function Main3dArea() {
   return (
     <ViewAreaWrapper ref={wrapperRef as React.RefObject<HTMLDivElement>}>
       <StyledCanvas ref={canvasRef} />
-      {
-        loading
-            && (
-              <SpinnerWrapper>
-                <Spin size="large" />
-              </SpinnerWrapper>
-            )
-      }
-
+      {loading && (
+        <SpinnerWrapper>
+          <Spin size="large" />
+        </SpinnerWrapper>
+      )}
     </ViewAreaWrapper>
   );
 }
