@@ -40,12 +40,13 @@ type Props = {
   close: () => void;
 };
 
-const getBase64 = (file: RcFile): Promise<string> => new Promise((resolve, reject) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result as string);
-  reader.onerror = (error) => reject(error);
-});
+const getBase64 = (file: RcFile): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 
 const PhotoUploader: React.FC<Props> = ({ fileList, setFileList, close }) => {
   const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
@@ -67,7 +68,9 @@ const PhotoUploader: React.FC<Props> = ({ fileList, setFileList, close }) => {
   return (
     <Wrapper>
       <HeaderSection>
-        <Button shape="round" size="small" onClick={() => setFileList([])}>Clear All</Button>
+        <Button shape="round" size="small" onClick={() => setFileList([])}>
+          Clear All
+        </Button>
       </HeaderSection>
       <ContentSection>
         <Upload
@@ -81,7 +84,9 @@ const PhotoUploader: React.FC<Props> = ({ fileList, setFileList, close }) => {
         </Upload>
       </ContentSection>
       <FooterSection>
-        <Button shape="round" size="small" type="primary" onClick={close}>Done</Button>
+        <Button shape="round" size="small" type="primary" onClick={close}>
+          Done
+        </Button>
       </FooterSection>
     </Wrapper>
   );
