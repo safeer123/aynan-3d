@@ -1,52 +1,15 @@
-import styled from 'styled-components';
-import { Slider, Button, Tooltip } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { useContext } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
-import HideOnMouseAway from '../../utils/HideOnMouseAway';
-
-const Overlay = styled(HideOnMouseAway)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
-const Group1 = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 36px;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 36px;
-`;
-
-const Group2 = styled.div`
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-  align-items: center;
-  padding: 0px 36px;
-`;
-
-const SliderCustom = styled(Slider)`
-  margin: 0;
-  border-radius: 8px;
-  background-color: #5465ff82;
-`;
-
-const HorizSliderWrapper = styled.div`
-  width: 50%;
-`;
-
-const VertSliderWrapper = styled.div`
-  height: 70%;
-`;
+import {
+  Overlay,
+  Group1,
+  Group2,
+  SliderCustom,
+  HorizSliderWrapper,
+  VertSliderWrapper,
+} from './styles';
 
 function Controls() {
   const { controlValues, setControlValues, downloadAnaglyph } = useContext(
