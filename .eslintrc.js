@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb-typescript',
+    'prettier',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
   ],
@@ -20,9 +21,22 @@ module.exports = {
   },
   plugins: [
     'react',
+    'prettier',
     '@typescript-eslint',
   ],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+        trailingComma: 'all',
+        semi: true,
+        tabWidth: 2,
+        singleQuote: true,
+        arrowParens: 'always',
+        printWidth: 100,
+      },
+    ], // Use our .prettierrc file as source
     quotes: ['error', 'single'],
     // we want to force semicolons
     semi: ['error', 'always'],
@@ -37,6 +51,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-await-in-loop': 'off',
     '@typescript-eslint/no-shadow': 'off',
+    'react/require-default-props': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

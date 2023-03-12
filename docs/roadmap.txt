@@ -1,0 +1,29 @@
+======= Done
+
+download button --> icon action button
+upload images --> icon action button
+Image header area - hide when no mouse activity
+react context for all the required states
+vertical slider and move image vertically
+[wont-fix] fix: when one image is shifted, it crops the anaglyph image
+fix: image load spinner is missing most of the time
+fix: image loading bar is not completed, even after loaded
+Aynan typography on the header
+responsive 3d area and canvas
+fix: lint issues
+push the code with zero errors
+
+======= Pending
+
+fix: hot reload not working
+styles --> styles.ts
+useDimensions() --> utils
+deploy the site
+enhancement: improve on image processing time
+scroll issue when first image loaded
+eslint not working for styled-components
+absolute path from root folders
+Image header area - slider + download option + image dimensions
+Image header area - dropdowns to select left and right images
+favi icon
+page routes - /images-to-anaglyph

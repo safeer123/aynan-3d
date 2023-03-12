@@ -1,41 +1,11 @@
 import { useContext, useState } from 'react';
-import {
-  Layout, Button, Popover, Tooltip,
-} from 'antd';
-import styled from 'styled-components';
+import { Layout, Button, Popover, Tooltip } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import PhotoUploader from '../photo-uploader';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
+import { LeftSection, RightSection, AppTitle, TagLine } from './styles';
 
 const { Header: AntHeader } = Layout;
-
-const LeftSection = styled.div`
-  width: 50%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const RightSection = styled.div`
-  width: 50%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-end;
-`;
-
-const AppTitle = styled.span`
-  font-size: 24px;
-  font-weight: 600;
-  color: #323131;
-  letter-spacing: 0.1cm;
-`;
-
-const TagLine = styled.span`
-  font-size: 16px;
-  color: #323131;
-  letter-spacing: 0.05cm;
-`;
 
 export default function Header() {
   const { fileList, setFileList } = useContext(AnaglyphTBContext) as AnaglyphTBContextType;
@@ -63,16 +33,14 @@ export default function Header() {
       </LeftSection>
       <RightSection>
         <Popover
-          content={(
-            <PhotoUploader fileList={fileList} setFileList={setFileList} close={close} />
-          )}
+          content={<PhotoUploader fileList={fileList} setFileList={setFileList} close={close} />}
           title="Upload images for left and right eyes"
           trigger="click"
           open={open}
           onOpenChange={handleOpenChange}
           placement="topRight"
         >
-          <Tooltip title="Upload photos for left/right eyes" placement="bottomRight" mouseEnterDelay={1}>
+          <Tooltip title="Upload left & right images" placement="bottomRight" mouseEnterDelay={1}>
             <Button type="primary" shape="round" size="small" icon={<UploadOutlined />}>
               Upload Photos
             </Button>

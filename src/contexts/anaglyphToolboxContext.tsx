@@ -1,13 +1,13 @@
-import React, {
-  useCallback, useMemo, useRef, useState,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { UploadFile } from 'antd/es/upload/interface';
+import { ControlValues } from '../types/controls';
+import { RenderType } from '../types/render';
 
 export type AnaglyphTBContextType = {
   fileList: UploadFile[];
   setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>;
-  controlValues: Object;
-  setControlValues: React.Dispatch<React.SetStateAction<Object>>;
+  controlValues: ControlValues;
+  updateControlValues: (update: ControlValues) => void;
   canvasRef: React.RefObject<HTMLCanvasElement>;
   downloadAnaglyph: () => void;
 };
@@ -16,9 +16,10 @@ export const AnaglyphTBContext = React.createContext<AnaglyphTBContextType | nul
 
 const AnaglyphTBProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [controlValues, setControlValues] = useState({
+  const [controlValues, setControlValues] = useState<ControlValues>({
     deltaX: 0,
     deltaY: 0,
+    selectedRenderType: RenderType.SINGLE,
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -33,15 +34,20 @@ const AnaglyphTBProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     link.click();
   }, [canvasRef.current]);
 
-  const contextProps = useMemo(() => ({
-    fileList, setFileList, controlValues, setControlValues, canvasRef, downloadAnaglyph,
-  }), [fileList, setFileList, controlValues, setControlValues, canvasRef, downloadAnaglyph]);
-
-  return (
-    <AnaglyphTBContext.Provider value={contextProps}>
-      {children}
-    </AnaglyphTBContext.Provider>
+  const contextProps = useMemo(
+    () => ({
+      fileList,
+      setFileList,
+      controlValues,
+      updateControlValues: (update: ControlValues) =>
+        setControlValues({ ...controlValues, ...update }),
+      canvasRef,
+      downloadAnaglyph,
+    }),
+    [fileList, setFileList, controlValues, setControlValues, canvasRef, downloadAnaglyph],
   );
+
+  return <AnaglyphTBContext.Provider value={contextProps}>{children}</AnaglyphTBContext.Provider>;
 };
 
 export default AnaglyphTBProvider;
