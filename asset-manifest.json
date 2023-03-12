@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/aynan/static/css/main.c9a9c8fd.css",
-    "main.js": "/aynan/static/js/main.e0e09bb6.js",
-    "index.html": "/aynan/index.html",
-    "main.c9a9c8fd.css.map": "/aynan/static/css/main.c9a9c8fd.css.map",
-    "main.e0e09bb6.js.map": "/aynan/static/js/main.e0e09bb6.js.map"
+    "main.css": "/aynan-3d/static/css/main.c9a9c8fd.css",
+    "main.js": "/aynan-3d/static/js/main.f8e1d098.js",
+    "index.html": "/aynan-3d/index.html",
+    "main.c9a9c8fd.css.map": "/aynan-3d/static/css/main.c9a9c8fd.css.map",
+    "main.f8e1d098.js.map": "/aynan-3d/static/js/main.f8e1d098.js.map"
   },
   "entrypoints": [
     "static/css/main.c9a9c8fd.css",
-    "static/js/main.e0e09bb6.js"
+    "static/js/main.f8e1d098.js"
   ]
 }
