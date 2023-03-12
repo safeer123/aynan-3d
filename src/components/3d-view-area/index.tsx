@@ -3,13 +3,9 @@ import { Image as Img } from 'image-js';
 import { debounce } from 'lodash';
 import { Spin } from 'antd';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
-import {
-  AnaglyphRenderConfig,
-  RenderConfig,
-  RenderType,
-  SingleRenderConfig,
-} from '../../types/render';
+import { AnaglyphRenderConfig, RenderType, SingleRenderConfig } from '../../types/render';
 import { StyledCanvas, ViewAreaWrapper, SpinnerWrapper } from './styles';
+import { ControlValues } from '../../types/controls';
 
 type Dimensions = {
   width: number;
@@ -37,18 +33,18 @@ function useDimensions(): [React.RefObject<HTMLDivElement | undefined>, Dimensio
 }
 
 function Main3dArea() {
-  const { fileList, controlValues, canvasRef } = useContext(
-    AnaglyphTBContext,
-  ) as AnaglyphTBContextType;
+  const { controlValues, canvasRef } = useContext(AnaglyphTBContext) as AnaglyphTBContextType;
 
-  const [images, setImages] = useState<string[]>([]);
-
-  const [renderConfig, setRenderConfig] = useState<RenderConfig | null>(null);
   const [loading, setLoading] = useState(false);
 
   const [wrapperRef, dimensions] = useDimensions();
 
-  const updateCanvasSize = (imgWidth: number, imgHeight: number, canvas: HTMLCanvasElement) => {
+  const updateCanvasSize = (
+    canvas: HTMLCanvasElement,
+    imgWidth: number,
+    imgHeight: number,
+    dimensions: Dimensions,
+  ) => {
     canvas.width = imgWidth;
     canvas.height = imgHeight;
     const arImg = imgWidth / imgHeight;
@@ -90,48 +86,59 @@ function Main3dArea() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   };
 
-  const drawImage = (ctx: CanvasRenderingContext2D, img: HTMLImageElement) => {
+  const drawImage = (
+    ctx: CanvasRenderingContext2D,
+    img: HTMLImageElement,
+    dimensions: Dimensions,
+  ) => {
     clear(ctx);
-    updateCanvasSize(img.naturalWidth, img.naturalHeight, ctx.canvas);
+    updateCanvasSize(ctx.canvas, img.naturalWidth, img.naturalHeight, dimensions);
     ctx.drawImage(img, 0, 0);
     ctx.fill();
   };
 
-  const drawSingleImg = async (ctx: CanvasRenderingContext2D, renderConf: SingleRenderConfig) => {
+  const drawSingleImg = async (
+    ctx: CanvasRenderingContext2D,
+    controlValues: ControlValues,
+    dimensions: Dimensions,
+  ) => {
     setLoading(true);
-    const img = await loadImageFromData(renderConf?.img);
 
-    // Draw the final image on the canvas
-    clear(ctx);
-    updateCanvasSize(img.naturalWidth, img.naturalHeight, ctx.canvas);
-    ctx.drawImage(img, 0, 0);
-    ctx.fill();
+    const renderConfig = controlValues.renderConfig as SingleRenderConfig;
+
+    if (!renderConfig?.imgData) {
+      setLoading(false);
+      return;
+    }
+    const img = await loadImageFromData(renderConfig?.imgData?.preview || '');
+
+    drawImage(ctx, img, dimensions);
     setLoading(false);
   };
 
   const drawAnaglyph2 = async (
     ctx: CanvasRenderingContext2D,
-    renderConf: AnaglyphRenderConfig,
+    controlValues: ControlValues,
+    dimensions: Dimensions,
   ): Promise<void> => {
     setLoading(true);
-    const {
-      imgL,
-      imgR,
-      controlValues: { deltaX, deltaY },
-    } = renderConf;
-    const imgObjL = await Img.load(imgL);
 
-    const imageR = await loadImageFromData(imgR);
+    const { deltaX, deltaY } = controlValues;
+    const { imgDataL, imgDataR } = controlValues.renderConfig as AnaglyphRenderConfig;
+
+    const imgObjL = await Img.load(imgDataL?.preview || '');
+
+    const imageR = await loadImageFromData(imgDataR?.preview || '');
 
     const newCanvas = document.createElement('canvas');
     const ctxTemp = newCanvas.getContext('2d');
-    updateCanvasSize(imageR.naturalWidth, imageR.naturalHeight, newCanvas);
+    updateCanvasSize(newCanvas, imageR.naturalWidth, imageR.naturalHeight, dimensions);
     if (ctxTemp) {
       clear(ctxTemp);
       ctxTemp.drawImage(
         imageR,
-        (deltaX / 100) * imageR.naturalWidth,
-        (deltaY / 100) * imageR.naturalHeight,
+        ((deltaX || 0) / 100) * imageR.naturalWidth,
+        ((deltaY || 0) / 100) * imageR.naturalHeight,
       );
       ctxTemp.fill();
     }
@@ -144,7 +151,7 @@ function Main3dArea() {
     const img = await toHTMLImage(imgObj2);
 
     // Draw the final image on the canvas
-    drawImage(ctx, img);
+    drawImage(ctx, img, dimensions);
     setLoading(false);
   };
 
@@ -164,57 +171,34 @@ function Main3dArea() {
   //     };
   //   }, [fileList]);
 
-  useEffect(() => {
-    setImages(fileList.map((f) => f.preview || ''));
-  }, [fileList]);
+  const debouncedRender = useRef(
+    debounce((controlValues, dimensions) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-  const debouncedUpdateRenderConfig = useRef(
-    debounce((images, controlValues) => {
-      if (images.length === 1) {
-        setRenderConfig({
-          type: RenderType.SINGLE,
-          img: images?.[0],
-        });
-      } else if (images.length >= 2) {
-        setRenderConfig({
-          type: RenderType.ANAGLYPH,
-          imgL: images?.[0],
-          imgR: images?.[1],
-          controlValues,
-        });
-      } else {
-        setRenderConfig(null);
+      const context = canvas.getContext('2d');
+      if (!context) return;
+
+      const { renderConfig } = controlValues;
+
+      if (!renderConfig) {
+        clear(context);
+        return;
       }
+
+      setLoading(true);
+      setTimeout(() => {
+        if (renderConfig.type === RenderType.SINGLE) {
+          drawSingleImg(context, controlValues, dimensions);
+        }
+        if (renderConfig.type === RenderType.ANAGLYPH) {
+          drawAnaglyph2(context, controlValues, dimensions);
+        }
+      }, 10);
     }, 500),
   ).current;
 
-  useEffect(
-    () => debouncedUpdateRenderConfig(images, controlValues),
-    [images, controlValues, dimensions],
-  );
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    if (!renderConfig) {
-      clear(context);
-      return;
-    }
-
-    setLoading(true);
-    setTimeout(() => {
-      if (renderConfig.type === RenderType.SINGLE) {
-        drawSingleImg(context, renderConfig as SingleRenderConfig);
-      }
-      if (renderConfig.type === RenderType.ANAGLYPH) {
-        drawAnaglyph2(context, renderConfig as AnaglyphRenderConfig);
-      }
-    }, 10);
-  }, [renderConfig]);
+  useEffect(() => debouncedRender(controlValues, dimensions), [controlValues, dimensions]);
 
   return (
     <ViewAreaWrapper ref={wrapperRef as React.RefObject<HTMLDivElement>}>

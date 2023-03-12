@@ -40,11 +40,7 @@ export default function Header() {
           onOpenChange={handleOpenChange}
           placement="topRight"
         >
-          <Tooltip
-            title="Upload photos for left/right eyes"
-            placement="bottomRight"
-            mouseEnterDelay={1}
-          >
+          <Tooltip title="Upload left & right images" placement="bottomRight" mouseEnterDelay={1}>
             <Button type="primary" shape="round" size="small" icon={<UploadOutlined />}>
               Upload Photos
             </Button>

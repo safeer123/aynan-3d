@@ -1,4 +1,4 @@
-import { ControlValues } from './controls';
+import { UploadFile } from 'antd';
 
 export enum RenderType {
   SINGLE = 'SINGLE',
@@ -7,14 +7,13 @@ export enum RenderType {
 
 export type SingleRenderConfig = {
   type: RenderType;
-  img: string;
+  imgData: UploadFile;
 };
 
 export type AnaglyphRenderConfig = {
   type: RenderType;
-  imgL: string;
-  imgR: string;
-  controlValues: ControlValues;
+  imgDataL: UploadFile;
+  imgDataR: UploadFile;
 };
 
 export type RenderConfig = SingleRenderConfig | AnaglyphRenderConfig;

@@ -12,3 +12,8 @@ body {
 iframe {
   display: none;
 }
+
+.ant-dropdown-menu {
+  max-height: 400px;
+  overflow: auto;
+}

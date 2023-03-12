@@ -44,3 +44,10 @@ export const HorizSliderWrapper = styled.div`
 export const VertSliderWrapper = styled.div`
   height: 70%;
 `;
+
+export const BottomArea = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 16px;
+`;
