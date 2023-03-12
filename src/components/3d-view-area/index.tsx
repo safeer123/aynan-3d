@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useLayoutEffect, useContext } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 import { Image as Img } from 'image-js';
 import { debounce } from 'lodash';
 import { Spin } from 'antd';
@@ -6,31 +6,7 @@ import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyp
 import { AnaglyphRenderConfig, RenderType, SingleRenderConfig } from '../../types/render';
 import { StyledCanvas, ViewAreaWrapper, SpinnerWrapper } from './styles';
 import { ControlValues } from '../../types/controls';
-
-type Dimensions = {
-  width: number;
-  height: number;
-};
-
-function useDimensions(): [React.RefObject<HTMLDivElement | undefined>, Dimensions] {
-  const ref = useRef<HTMLDivElement>();
-  const [dimensions, setDimensions] = useState<Dimensions>({ width: 0, height: 0 });
-
-  useLayoutEffect(() => {
-    const updateResize = () => {
-      setDimensions(ref?.current?.getBoundingClientRect()?.toJSON());
-    };
-
-    updateResize();
-    window.addEventListener('resize', updateResize);
-
-    return () => {
-      window.removeEventListener('resize', updateResize);
-    };
-  }, [ref.current]);
-
-  return [ref, dimensions];
-}
+import useDimensions, { Dimensions } from '../../utils/use-dimensions';
 
 function Main3dArea() {
   const { controlValues, canvasRef } = useContext(AnaglyphTBContext) as AnaglyphTBContextType;

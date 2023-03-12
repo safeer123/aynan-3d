@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Slider } from 'antd';
-import HideOnMouseAway from '../../utils/HideOnMouseAway';
+import HideOnMouseAway from '../../utils/hide-on-mouse-away';
 
 export const Overlay = styled(HideOnMouseAway)`
   position: absolute;
