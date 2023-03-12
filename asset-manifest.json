@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/aynan/static/css/main.c9a9c8fd.css",
+    "main.js": "/aynan/static/js/main.e0e09bb6.js",
+    "index.html": "/aynan/index.html",
+    "main.c9a9c8fd.css.map": "/aynan/static/css/main.c9a9c8fd.css.map",
+    "main.e0e09bb6.js.map": "/aynan/static/js/main.e0e09bb6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c9a9c8fd.css",
+    "static/js/main.e0e09bb6.js"
+  ]
+}
