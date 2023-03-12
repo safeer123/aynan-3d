@@ -1,5 +1,6 @@
 {
   "name": "aynan-3d",
+  "homepage": "https://safeer123.github.io/aynan-3d",
   "version": "1.0.0",
   "description": "Aynan - 3D content generation on the Web",
   "keywords": [
@@ -36,6 +37,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
     "prettier": "2.8.4",
     "stylelint": "^15.2.0",
     "stylelint-config-recommended": "^10.0.1",
@@ -49,7 +51,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "clean-start": "rm -rf node_modules; rm package-lock.json; npm i; npm start;"
+    "clean-start": "rm -rf node_modules; rm package-lock.json; npm i; npm start;",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
