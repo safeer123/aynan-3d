@@ -34,7 +34,7 @@ function Controls() {
   );
 
   return (
-    <Overlay delay={2000000} defaultTransition hideCursor>
+    <Overlay delay={2000} defaultTransition hideCursor>
       <Group2>
         {showAnaglyphRenderControls && (
           <VertSliderWrapper>
