@@ -16,6 +16,8 @@ import RenderTypeSelector from '../render-type-selector';
 import { RenderType } from '../../types/render';
 import SingleImageSelector from '../image-selector/single';
 
+const OVERLAY_TIMEOUT = 2000; // in millisec
+
 function Controls() {
   const { controlValues, updateControlValues, downloadAnaglyph } = useContext(
     AnaglyphTBContext,
@@ -34,7 +36,7 @@ function Controls() {
   );
 
   return (
-    <Overlay delay={2000} defaultTransition hideCursor>
+    <Overlay delay={OVERLAY_TIMEOUT} defaultTransition hideCursor>
       <Group2>
         {showAnaglyphRenderControls && (
           <VertSliderWrapper>

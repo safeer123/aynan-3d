@@ -62,14 +62,28 @@ function Main3dArea() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   };
 
+  const drawImageMeta = (
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    name: string,
+  ) => {
+    ctx.fillStyle = '#fff';
+    ctx.font = '3.0em Arial';
+    const txt = `${name} ${width}✕${height}`;
+    ctx.fillText(txt, width - ctx.measureText(txt).width - 20, height - 20);
+  };
+
   const drawImage = (
     ctx: CanvasRenderingContext2D,
     img: HTMLImageElement,
     dimensions: Dimensions,
+    name: string,
   ) => {
     clear(ctx);
     updateCanvasSize(ctx.canvas, img.naturalWidth, img.naturalHeight, dimensions);
     ctx.drawImage(img, 0, 0);
+    drawImageMeta(ctx, img.naturalWidth, img.naturalHeight, name);
     ctx.fill();
   };
 
@@ -88,7 +102,7 @@ function Main3dArea() {
     }
     const img = await loadImageFromData(renderConfig?.imgData?.preview || '');
 
-    drawImage(ctx, img, dimensions);
+    drawImage(ctx, img, dimensions, renderConfig?.imgData?.name);
     setLoading(false);
   };
 
@@ -127,7 +141,7 @@ function Main3dArea() {
     const img = await toHTMLImage(imgObj2);
 
     // Draw the final image on the canvas
-    drawImage(ctx, img, dimensions);
+    drawImage(ctx, img, dimensions, `${imgDataL?.name}, ${imgDataR?.name}`);
     setLoading(false);
   };
 
