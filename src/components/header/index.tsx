@@ -29,7 +29,7 @@ export default function Header() {
             ynan
           </i>
         </AppTitle>
-        <TagLine>3D content maker on the Web - test</TagLine>
+        <TagLine>3D content maker on the Web</TagLine>
       </LeftSection>
       <RightSection>
         <Popover
