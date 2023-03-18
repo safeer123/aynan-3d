@@ -31,11 +31,11 @@ function Main3dArea() {
     if (arImg > arWrapper) {
       // fit width as of the wrapper
       canvas.style.width = `${width}px`;
-      canvas.style.height = `${width / arImg}px`;
+      canvas.style.height = `${Math.floor(width / arImg)}px`;
     } else {
       // fit height as of the wrapper
-      canvas.style.height = `${height}px`;
-      canvas.style.width = `${height * arImg}px`;
+      canvas.style.height = `${height - 3}px`; // fix: subtract 3 to avoid a vertical scroll
+      canvas.style.width = `${Math.floor(height * arImg)}px`;
     }
   };
 
