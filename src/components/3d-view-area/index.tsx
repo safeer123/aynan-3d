@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useContext } from 'react';
 import { Image as Img } from 'image-js';
 import { debounce } from 'lodash';
 import { Spin } from 'antd';
+import dayjs from 'dayjs';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
 import { AnaglyphRenderConfig, RenderType, SingleRenderConfig } from '../../types/render';
 import { StyledCanvas, ViewAreaWrapper, SpinnerWrapper } from './styles';
@@ -62,14 +63,28 @@ function Main3dArea() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   };
 
+  const drawImageMeta = (ctx: CanvasRenderingContext2D, img: HTMLImageElement, txt: string) => {
+    const [width, height] = [img.naturalWidth, img.naturalHeight];
+    // Shadow, color and font
+    ctx.shadowColor = '#0b194b';
+    ctx.shadowBlur = 15;
+    ctx.fillStyle = '#fff';
+    ctx.font = '3.0em Arial';
+    ctx.fillText(txt, width - ctx.measureText(txt).width - 20, height - 20);
+  };
+
   const drawImage = (
     ctx: CanvasRenderingContext2D,
     img: HTMLImageElement,
     dimensions: Dimensions,
+    txt?: string,
   ) => {
     clear(ctx);
     updateCanvasSize(ctx.canvas, img.naturalWidth, img.naturalHeight, dimensions);
     ctx.drawImage(img, 0, 0);
+    if (txt) {
+      drawImageMeta(ctx, img, txt);
+    }
     ctx.fill();
   };
 
@@ -87,8 +102,11 @@ function Main3dArea() {
       return;
     }
     const img = await loadImageFromData(renderConfig?.imgData?.preview || '');
-
-    drawImage(ctx, img, dimensions);
+    const dateModified = renderConfig?.imgData?.lastModified
+      ? dayjs(renderConfig?.imgData?.lastModified).format('D MMM, YYYY')
+      : '';
+    // Draw the final image
+    drawImage(ctx, img, dimensions, dateModified);
     setLoading(false);
   };
 
@@ -126,8 +144,11 @@ function Main3dArea() {
 
     const img = await toHTMLImage(imgObj2);
 
-    // Draw the final image on the canvas
-    drawImage(ctx, img, dimensions);
+    const dateModified = imgDataL?.lastModified
+      ? dayjs(imgDataL?.lastModified).format('D MMM, YYYY')
+      : '';
+    // Draw the final image
+    drawImage(ctx, img, dimensions, dateModified);
     setLoading(false);
   };
 

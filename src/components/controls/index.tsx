@@ -3,18 +3,20 @@ import { useContext } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
 import {
+  BottomGroupsWrapper,
   Overlay,
   Group1,
   Group2,
   SliderCustom,
   HorizSliderWrapper,
   VertSliderWrapper,
-  BottomArea,
 } from './styles';
 import AnaglyphImageSelector from '../image-selector/anaglyph';
 import RenderTypeSelector from '../render-type-selector';
 import { RenderType } from '../../types/render';
 import SingleImageSelector from '../image-selector/single';
+
+const OVERLAY_TIMEOUT = 2000; // in millisec
 
 function Controls() {
   const { controlValues, updateControlValues, downloadAnaglyph } = useContext(
@@ -34,39 +36,7 @@ function Controls() {
   );
 
   return (
-    <Overlay delay={2000} defaultTransition hideCursor>
-      <BottomArea>
-        <RenderTypeSelector />
-      </BottomArea>
-      <Group1>
-        {controlValues?.selectedRenderType === RenderType.SINGLE && <SingleImageSelector />}
-        {controlValues?.selectedRenderType === RenderType.ANAGLYPH && <AnaglyphImageSelector />}
-        {showAnaglyphRenderControls && (
-          <HorizSliderWrapper>
-            <SliderCustom
-              defaultValue={0}
-              value={controlValues?.deltaX || 0}
-              min={-50}
-              max={50}
-              step={0.25}
-              onChange={(val) => onChangeVal('deltaX', val)}
-              // onAfterChange={onAfterChange}
-            />
-          </HorizSliderWrapper>
-        )}
-
-        {(showSingleRenderControls || showAnaglyphRenderControls) && (
-          <Tooltip title="Download as PNG" placement="bottomRight" mouseEnterDelay={1}>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<DownloadOutlined />}
-              onClick={downloadAnaglyph}
-            />
-          </Tooltip>
-        )}
-      </Group1>
-
+    <Overlay delay={OVERLAY_TIMEOUT} defaultTransition hideCursor>
       <Group2>
         {showAnaglyphRenderControls && (
           <VertSliderWrapper>
@@ -82,6 +52,33 @@ function Controls() {
           </VertSliderWrapper>
         )}
       </Group2>
+      <BottomGroupsWrapper>
+        <Group1>
+          <RenderTypeSelector />
+        </Group1>
+        <Group1>
+          {controlValues?.selectedRenderType === RenderType.SINGLE && <SingleImageSelector />}
+          {controlValues?.selectedRenderType === RenderType.ANAGLYPH && <AnaglyphImageSelector />}
+          {(showSingleRenderControls || showAnaglyphRenderControls) && (
+            <Tooltip title="Download as PNG" placement="bottomRight" mouseEnterDelay={1}>
+              <Button shape="circle" icon={<DownloadOutlined />} onClick={downloadAnaglyph} />
+            </Tooltip>
+          )}
+          {showAnaglyphRenderControls && (
+            <HorizSliderWrapper>
+              <SliderCustom
+                defaultValue={0}
+                value={controlValues?.deltaX || 0}
+                min={-50}
+                max={50}
+                step={0.25}
+                onChange={(val) => onChangeVal('deltaX', val)}
+                // onAfterChange={onAfterChange}
+              />
+            </HorizSliderWrapper>
+          )}
+        </Group1>
+      </BottomGroupsWrapper>
     </Overlay>
   );
 }

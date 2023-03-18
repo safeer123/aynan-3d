@@ -5,25 +5,38 @@ import HideOnMouseAway from '../../utils/hide-on-mouse-away';
 export const Overlay = styled(HideOnMouseAway)`
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: flex-end;
 `;
 
-export const Group1 = styled.div`
+export const BottomGroupsWrapper = styled.div`
   width: 100%;
   display: flex;
   gap: 36px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 36px;
 `;
 
+export const Group1 = styled.div`
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  flex: 1;
+
+  :nth-of-type(2) {
+    flex: 2;
+    justify-content: flex-end;
+  }
+`;
+
 export const Group2 = styled.div`
-  height: 50%;
+  height: 30%;
   display: flex;
   flex-direction: column;
   gap: 36px;
@@ -38,16 +51,9 @@ export const SliderCustom = styled(Slider)`
 `;
 
 export const HorizSliderWrapper = styled.div`
-  width: 50%;
+  flex-grow: 1;
 `;
 
 export const VertSliderWrapper = styled.div`
-  height: 70%;
-`;
-
-export const BottomArea = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 16px;
+  height: 100%;
 `;
