@@ -16,8 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-        with:
-          token: ${{ secrets.GH_WORKFLOW_SECRET }}
 
       - name: Install and build
         run: npm install && npm run build
@@ -27,3 +25,4 @@ jobs:
         with:
           branch: gh-pages
           folder: build
+          token: ${{ secrets.GH_WORKFLOW_SECRET }}
