@@ -1,4 +1,4 @@
-# aynan-3d
+# Aynan 3D ***👓***
 Make 3D content on the web
 
 Deployed at: https://safeer123.github.io/aynan-3d/
