@@ -12,6 +12,10 @@ const router = createBrowserRouter([
     path: Routes.PHOTOS_TO_ANAGLYPH,
     element: <AnaglyphMaker />,
   },
+  {
+    path: Routes.PHOTOS_TO_ANAGLYPH_WG,
+    element: <AnaglyphMaker webgl />,
+  },
 ]);
 
 const AppRouter = () => <RouterProvider router={router} />;
