@@ -53,6 +53,7 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'off',
     'react/require-default-props': 'off',
     'import/prefer-default-export': 'off',
+    'no-console': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
