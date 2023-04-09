@@ -5,6 +5,9 @@ on:
     branches:
       - "main"
 
+env: 
+  REACT_APP_WEBSOCKET_SERVER: ${{ secrets.REACT_APP_WEBSOCKET_SERVER }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,8 +24,6 @@ jobs:
 
       - name: Install and build
         run: npm install && npm run build
-        env: 
-          REACT_APP_WEBSOCKET_SERVER: ${{ secrets.REACT_APP_WEBSOCKET_SERVER }}
 
       - name: Deploy the site
         uses: JamesIves/github-pages-deploy-action@v4
