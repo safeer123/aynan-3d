@@ -4,7 +4,7 @@ import { StyledCanvas, ViewAreaWrapper } from './styles';
 import { ControlValues } from '../../types/controls';
 import useDimensions, { Dimensions } from '../../utils/use-dimensions';
 import AnaglyphRenderer from './video-texture-render-anaglyph';
-import { useVideoInputs } from './use-video-inputs';
+// import { useVideoInputs } from './use-video-inputs';
 import { AnaglyphVideoRenderConfig } from '../../types/render';
 
 interface VideoRenderParams {
