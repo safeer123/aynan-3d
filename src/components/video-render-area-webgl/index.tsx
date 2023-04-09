@@ -33,6 +33,7 @@ function Main3dArea() {
     imgHeight: number,
     dimensions: Dimensions,
   ) => {
+    console.log('video dim --> ', imgWidth, imgHeight);
     const arImg = imgWidth / imgHeight;
     const { width, height } = dimensions;
     if (!width || !height) return;
