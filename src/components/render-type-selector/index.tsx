@@ -1,10 +1,12 @@
 import { Segmented } from 'antd';
 import { BlockOutlined, PictureOutlined } from '@ant-design/icons';
 import { SegmentedValue } from 'antd/es/segmented';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
 import { RenderType } from '../../types/render';
 import { AnaglyphTBContext, AnaglyphTBContextType } from '../../contexts/anaglyphToolboxContext';
+import { Modes, Routes } from '../../router/constants';
 
 const StyledSegmented = styled(Segmented)`
   .ant-segmented-item {
@@ -15,28 +17,58 @@ const StyledSegmented = styled(Segmented)`
   }
 `;
 
+const ModeToRoute = {
+  [Modes.SinglePhoto]: RenderType.SINGLE,
+  [Modes.AnaglyphPhoto]: RenderType.ANAGLYPH_FROM_PHOTOS,
+  [Modes.AnaglyphVideo]: RenderType.ANAGLYPH_FROM_CAMERA,
+};
+
+const RouteToMode = {
+  [RenderType.SINGLE]: Modes.SinglePhoto,
+  [RenderType.ANAGLYPH_FROM_PHOTOS]: Modes.AnaglyphPhoto,
+  [RenderType.ANAGLYPH_FROM_CAMERA]: Modes.AnaglyphVideo,
+};
+
 const RenderTypeSelector = () => {
   const { controlValues, updateControlValues } = useContext(
     AnaglyphTBContext,
   ) as AnaglyphTBContextType;
+
+  const { mode } = useParams();
+  const navigate = useNavigate();
+
   const onChangeType = (value: SegmentedValue) => {
-    updateControlValues({
-      selectedRenderType: value as RenderType,
-    });
+    navigate(Routes.ANAGLYPH_TOOLBOX.replace(':mode?', value as string));
   };
+
+  useEffect(() => {
+    const renderType = ModeToRoute[mode as Modes] as RenderType;
+    updateControlValues({
+      selectedRenderType: renderType,
+    });
+  }, [mode]);
+
   return (
     <StyledSegmented
       onChange={onChangeType}
-      value={controlValues?.selectedRenderType}
+      value={
+        controlValues?.selectedRenderType &&
+        (RouteToMode[controlValues?.selectedRenderType] as Modes)
+      }
       options={[
         {
-          label: 'Single',
-          value: RenderType.SINGLE,
+          label: 'Single Photo',
+          value: Modes.SinglePhoto,
           icon: <PictureOutlined />,
         },
         {
-          label: 'Anaglyph',
-          value: RenderType.ANAGLYPH,
+          label: 'Anaglyph from photos',
+          value: Modes.AnaglyphPhoto,
+          icon: <BlockOutlined />,
+        },
+        {
+          label: 'Anaglyph from videos',
+          value: Modes.AnaglyphVideo,
           icon: <BlockOutlined />,
         },
       ]}

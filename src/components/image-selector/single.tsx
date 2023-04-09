@@ -43,7 +43,7 @@ const ImageSelector: React.FC = () => {
 
     if (
       !controlValues?.renderConfig ||
-      controlValues?.renderConfig?.type === RenderType.ANAGLYPH ||
+      controlValues?.renderConfig?.type === RenderType.ANAGLYPH_FROM_PHOTOS ||
       !fileList.find(
         (imgFile) => imgFile === (controlValues?.renderConfig as SingleRenderConfig)?.imgData,
       )

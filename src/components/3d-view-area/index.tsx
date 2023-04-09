@@ -188,7 +188,7 @@ function Main3dArea() {
         if (renderConfig.type === RenderType.SINGLE) {
           drawSingleImg(context, controlValues, dimensions);
         }
-        if (renderConfig.type === RenderType.ANAGLYPH) {
+        if (renderConfig.type === RenderType.ANAGLYPH_FROM_PHOTOS) {
           drawAnaglyph2(context, controlValues, dimensions);
         }
       }, 10);

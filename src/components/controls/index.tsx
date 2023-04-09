@@ -15,6 +15,7 @@ import AnaglyphImageSelector from '../image-selector/anaglyph';
 import RenderTypeSelector from '../render-type-selector';
 import { RenderType } from '../../types/render';
 import SingleImageSelector from '../image-selector/single';
+import CameraInputReceiver from '../camera-input-receiver';
 
 const OVERLAY_TIMEOUT = 2000; // in millisec
 
@@ -32,7 +33,9 @@ function Controls() {
   );
 
   const showAnaglyphRenderControls = Boolean(
-    controlValues?.selectedRenderType === RenderType.ANAGLYPH && controlValues?.renderConfig,
+    (controlValues?.selectedRenderType === RenderType.ANAGLYPH_FROM_PHOTOS ||
+      controlValues?.selectedRenderType === RenderType.ANAGLYPH_FROM_CAMERA) &&
+      controlValues?.renderConfig,
   );
 
   return (
@@ -57,8 +60,13 @@ function Controls() {
           <RenderTypeSelector />
         </Group1>
         <Group1>
+          {controlValues?.selectedRenderType === RenderType.ANAGLYPH_FROM_CAMERA && (
+            <CameraInputReceiver />
+          )}
           {controlValues?.selectedRenderType === RenderType.SINGLE && <SingleImageSelector />}
-          {controlValues?.selectedRenderType === RenderType.ANAGLYPH && <AnaglyphImageSelector />}
+          {controlValues?.selectedRenderType === RenderType.ANAGLYPH_FROM_PHOTOS && (
+            <AnaglyphImageSelector />
+          )}
           {(showSingleRenderControls || showAnaglyphRenderControls) && (
             <Tooltip title="Download as PNG" placement="bottomRight" mouseEnterDelay={1}>
               <Button shape="circle" icon={<DownloadOutlined />} onClick={downloadAnaglyph} />

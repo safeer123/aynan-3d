@@ -2,6 +2,7 @@ import { createHashRouter, RouterProvider } from 'react-router-dom';
 import AnaglyphMaker from '../pages/anaglyph-maker';
 import Home from '../pages/home';
 import { Routes } from './constants';
+import CameraClient from '../pages/camera-client';
 
 const router = createHashRouter([
   {
@@ -9,12 +10,12 @@ const router = createHashRouter([
     element: <Home />,
   },
   {
-    path: Routes.PHOTOS_TO_ANAGLYPH,
+    path: Routes.ANAGLYPH_TOOLBOX,
     element: <AnaglyphMaker />,
   },
   {
-    path: Routes.PHOTOS_TO_ANAGLYPH_WG,
-    element: <AnaglyphMaker webgl />,
+    path: Routes.CAMERA_CLIENT_APP,
+    element: <CameraClient />,
   },
 ]);
 

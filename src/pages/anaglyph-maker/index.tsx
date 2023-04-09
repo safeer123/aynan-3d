@@ -1,10 +1,14 @@
 import { Layout } from 'antd';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Main3dArea from '../../components/3d-view-area';
+// Old View Area component. We can remove this if not needed anymore
+// import Main3dArea from '../../components/3d-view-area';
 import Main3dAreaWG from '../../components/3d-view-area-webgl';
 import Controls from '../../components/controls';
 import Header from '../../components/header';
 import AnaglyphTBProvider from '../../contexts/anaglyphToolboxContext';
+import { Modes } from '../../router/constants';
+import VideoRenderArea from '../../components/video-render-area-webgl';
 
 const { Content } = Layout;
 
@@ -27,17 +31,22 @@ const StyledLayout = styled(Layout)`
   }
 `;
 
-type Props = {
-  webgl?: boolean;
-};
+export default function AnaglyphMaker() {
+  const { mode } = useParams();
 
-export default function AnaglyphMaker({ webgl }: Props) {
+  let renderAreaComponent = null;
+  if ([Modes.SinglePhoto, Modes.AnaglyphPhoto].includes(mode as Modes)) {
+    renderAreaComponent = <Main3dAreaWG />;
+  } else if (mode === Modes.AnaglyphVideo) {
+    renderAreaComponent = <VideoRenderArea />;
+  }
+
   return (
     <AnaglyphTBProvider>
       <StyledLayout>
         <Header />
         <Content>
-          {webgl ? <Main3dAreaWG /> : <Main3dArea />}
+          {renderAreaComponent}
           <Controls />
         </Content>
       </StyledLayout>
