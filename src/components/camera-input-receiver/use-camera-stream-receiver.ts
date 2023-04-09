@@ -11,6 +11,7 @@ import { AnaglyphVideoRenderConfig, RenderType } from '../../types/render';
 const WebSocketServer = process.env.REACT_APP_WEBSOCKET_SERVER || '';
 
 if (!WebSocketServer) {
+  console.log(process.env);
   throw Error('Environment variables are not set');
 }
 
