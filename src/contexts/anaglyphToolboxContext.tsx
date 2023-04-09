@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { ControlValues } from '../types/controls';
-import { RenderType } from '../types/render';
 
 export type AnaglyphTBContextType = {
   fileList: UploadFile[];
