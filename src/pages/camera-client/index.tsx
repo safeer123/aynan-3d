@@ -13,7 +13,7 @@ const StyledLayout = styled(Layout)`
 
 const Wrapper = styled.div`
   padding-left: 0px;
-  border-left: 20px solid #777;
+  border-left: 10px solid #555454;
 `;
 
 export default function CameraClient() {

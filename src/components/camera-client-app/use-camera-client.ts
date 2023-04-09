@@ -105,5 +105,7 @@ export const useCameraClient = () => {
   return {
     receivers,
     connect,
+    myVideoTitle: `${osName} . ${mobileModel} . ${browserName}`,
+    stream,
   };
 };
