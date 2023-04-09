@@ -1,6 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 
 export const Routes = {
-  PHOTOS_TO_ANAGLYPH: '/photos-to-anaglyph',
-  PHOTOS_TO_ANAGLYPH_WG: '/photos-to-anaglyph-wg',
+  ANAGLYPH_TOOLBOX: '/anaglyph-toolbox/:mode?',
+  CAMERA_CLIENT_APP: '/camera-client-app',
 };
+
+export enum Modes {
+  SinglePhoto = 'single-photo',
+  AnaglyphPhoto = 'anaglyph-photo',
+  AnaglyphVideo = 'anaglyph-video',
+}

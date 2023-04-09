@@ -2,18 +2,25 @@ import { UploadFile } from 'antd';
 
 export enum RenderType {
   SINGLE = 'SINGLE',
-  ANAGLYPH = 'ANAGLYPH',
+  ANAGLYPH_FROM_PHOTOS = 'ANAGLYPH_FROM_PHOTOS',
+  ANAGLYPH_FROM_CAMERA = 'ANAGLYPH_FROM_CAMERA',
 }
 
-export type SingleRenderConfig = {
+export interface SingleRenderConfig {
   type: RenderType;
   imgData: UploadFile;
-};
+}
 
-export type AnaglyphRenderConfig = {
+export interface AnaglyphRenderConfig {
   type: RenderType;
   imgDataL: UploadFile;
   imgDataR: UploadFile;
-};
+}
 
-export type RenderConfig = SingleRenderConfig | AnaglyphRenderConfig;
+export interface AnaglyphVideoRenderConfig {
+  type: RenderType;
+  leftVideo?: HTMLVideoElement;
+  rightVideo?: HTMLVideoElement;
+}
+
+export type RenderConfig = SingleRenderConfig | AnaglyphRenderConfig | AnaglyphVideoRenderConfig;

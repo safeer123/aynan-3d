@@ -28,7 +28,7 @@ const ImageSelector: React.FC = () => {
     updateControlValues({
       renderConfig: {
         ...controlValues.renderConfig,
-        type: RenderType.ANAGLYPH,
+        type: RenderType.ANAGLYPH_FROM_PHOTOS,
         [id]: fileList[+key],
       } as AnaglyphRenderConfig,
     });
@@ -55,7 +55,7 @@ const ImageSelector: React.FC = () => {
     if (!controlValues?.renderConfig || controlValues?.renderConfig?.type === RenderType.SINGLE) {
       // inital state
       const updatedConfig: AnaglyphRenderConfig = {
-        type: RenderType.ANAGLYPH,
+        type: RenderType.ANAGLYPH_FROM_PHOTOS,
         imgDataL: fileList[0],
         imgDataR: fileList[1],
       };

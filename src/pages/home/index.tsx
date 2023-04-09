@@ -6,13 +6,13 @@ import { Routes } from '../../router/constants';
 const links = [
   {
     id: 'anaglyph-3d-convert',
-    title: 'Convert photos into Anaglyph 3d image (slow, without WebGL)',
-    route: Routes.PHOTOS_TO_ANAGLYPH,
+    title: 'Convert photos and videos into Anaglyph 3d images/videos (uses WebGL)',
+    route: Routes.ANAGLYPH_TOOLBOX,
   },
   {
-    id: 'anaglyph-3d-convert-webgl',
-    title: 'Convert photos into Anaglyph 3d image (using WebGL)',
-    route: Routes.PHOTOS_TO_ANAGLYPH_WG,
+    id: 'camera-client-app',
+    title: 'Camera Client App',
+    route: Routes.CAMERA_CLIENT_APP,
   },
 ];
 

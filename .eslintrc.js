@@ -52,6 +52,7 @@ module.exports = {
     'no-await-in-loop': 'off',
     '@typescript-eslint/no-shadow': 'off',
     'react/require-default-props': 'off',
+    'import/prefer-default-export': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

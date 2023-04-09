@@ -19,7 +19,7 @@ const AnaglyphTBProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [controlValues, setControlValues] = useState<ControlValues>({
     deltaX: 0,
     deltaY: 0,
-    selectedRenderType: RenderType.SINGLE,
+    selectedRenderType: undefined,
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
