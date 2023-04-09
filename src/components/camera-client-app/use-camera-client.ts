@@ -83,8 +83,8 @@ export const useCameraClient = () => {
     navigator.mediaDevices
       .getUserMedia({
         video: {
-          width: { ideal: 4096 },
-          height: { ideal: 2160 },
+          width: { ideal: 4096 / 2 },
+          height: { ideal: 2160 / 2 },
           facingMode: {
             exact: 'environment',
           },
