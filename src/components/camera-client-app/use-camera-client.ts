@@ -80,9 +80,17 @@ export const useCameraClient = () => {
       // callback(filtered);
     });
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((currentStream) => {
-      setStream(currentStream);
-    });
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+        },
+        audio: true,
+      })
+      .then((currentStream) => {
+        setStream(currentStream);
+      });
 
     socket.on('me', (id) => setMe(id));
 
