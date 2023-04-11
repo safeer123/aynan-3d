@@ -85,7 +85,7 @@ export const useCameraClient = () => {
         video: {
           width: { ideal: 4096 / 2 },
           height: { ideal: 2160 / 2 },
-          frameRate: { ideal: 10, max: 15 },
+          frameRate: { ideal: 25, max: 30 },
           facingMode: {
             exact: 'environment',
           },
